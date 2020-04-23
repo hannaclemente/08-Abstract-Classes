@@ -8,7 +8,7 @@ https://drive.google.com/open?id=1ukVZopDDmEu2USREZm7PG6lPdbngX8y0
 
 Slides to follow along:
 
-
+https://docs.google.com/presentation/d/1ACQvLIZv5vrhytKaOmmIuF3YvAHcC6AMbh_jIHQpv0E/edit#slide=id.p
 
 Reading:
 
