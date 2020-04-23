@@ -30,6 +30,8 @@ class RectRegion implements Region { // Declared "implements Region" (the interf
     return this.lowerLeft.belowLeftOf(p) && this.upperRight.aboveRightOf(p);
   }
 }
+
+
 class CircRegion implements Region {
   Point center;
   int radius;
@@ -41,19 +43,67 @@ class CircRegion implements Region {
     return this.center.distance(p) < this.radius;    
   }
 }
-class UnionRegion implements Region {
+abstract class ComboRegion implements Region{
   Region r1;
   Region r2;
-  UnionRegion(Region r1, Region r2) {
+  ComboRegion(Region r1, Region r2) {
     this.r1 = r1;
     this.r2 = r2;
+  }
+}
+class UnionRegion extends ComboRegion {
+  UnionRegion(Region r1, Region r2) {
+    super(r1, r2);
   }
   public boolean contains(Point p) {
     return this.r1.contains(p) || this.r2.contains(p);
   }
 }
-
+class IntersectRegion extends ComboRegion {
+  IntersectRegion(Region r1, Region r2) {
+    super(r1, r2);
+  }
+  public boolean contains(Point p) {
+    return this.r1.contains(p) && this.r2.contains(p);
+  }
+}
+class SquareRegion implements Region {
+  Point center;
+  double sideLength;
+  SquareRegion(Point center, double sideLength) {
+    this.center = center;
+    this.sideLength = sideLength;
+  }
+  public boolean contains(Point p) {
+    int xDiff = Math.abs(p.x - this.center.x);
+    int yDiff = Math.abs(p.y - this.center.y);
+    boolean xInside = (xDiff < (this.sideLength / 2));
+    boolean yInside = (yDiff < (this.sideLength / 2));
+    return xInside && yInside;
+  }
+}
 class ExamplesRegion {
+  CircRegion firstExample = new CircRegion(new Point(10, 5), 4);
+  Region s1 = new SquareRegion(new Point(10, 1), 8.0);
+  /*
+  This version produced an error that we cannot access center:
+
+  Region s1 = new SquareRegion(new Point(10, 1), 8.0);
+  Point centerOfSquare = s1.center;
+  */
+  // IntersectRegion i1 = new IntersectRegion(this.firstExample, this.s1);
+  IntersectRegion i1 = new IntersectRegion(this.s1, this.firstExample);
+  boolean testIntersect(Tester t) {
+    return t.checkExpect(this.i1.contains(new Point(7, 4)), true) &&
+           t.checkExpect(this.i1.contains(new Point(10, 8)), false) &&
+           t.checkExpect(this.i1.contains(new Point(1, 7)), false);
+  }
+
+  boolean testSquare(Tester t) {
+    return t.checkExpect(this.s1.contains(new Point(12, 4)), true) &&
+          t.checkExpect(this.s1.contains(new Point(15, -4)), false);
+  }
+
   RectRegion r1 = new RectRegion(new Point(30, 40), new Point(100, 200));
   CircRegion cForBoth = new CircRegion(new Point(50, 50), 50);
 
