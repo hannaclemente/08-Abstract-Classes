@@ -1,6 +1,6 @@
 Zoom link: https://ucsd.zoom.us/s/797074102
 
-Zoom recording: ...
+Zoom recording: https://ucsd.zoom.us/rec/share/tMFZIZT21kJJE7Py01H1S-kDMonKeaa8hnMe_KcJyhzXJC4yeB_T_BQ6JI3hIIEx [ucsd.zoom.us]
 
 All videos available here:
 
